@@ -52,7 +52,7 @@ function showNews(lang) {
   loadYouTubeVideos(lang);
 }
 
-const apiKey = "YOUR_YOUTUBE_API_KEY"; // Replace with your real API key
+const apiKey = "AIzaSyAO1n0c91hAwOrSFWQLWmKOsuqNY9quzKQ"; // Replace with your real API key
 
 async function loadYouTubeVideos(lang) {
   const sidebar = document.querySelector('.youtube-sidebar');
