@@ -5,123 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>News Mixer</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    :root {
-      --bg-light: #ffffff;
-      --bg-dark: #121212;
-      --text-light: #000000;
-      --text-dark: #ffffff;
-      --card-light: #f1f8e9;
-      --card-dark: #1e1e1e;
-      --sidebar-light: #f0f8ff;
-      --sidebar-dark: #2c2c2c;
-    }
-
-    body {
-      background-color: var(--bg-light);
-      color: var(--text-light);
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    body.dark-mode {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-    }
-
-    .container {
-      background-color: inherit;
-    }
-
-    .main-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 0 20px;
-      gap: 20px;
-    }
-
-    .news-section {
-      flex: 2;
-    }
-
-    .youtube-sidebar {
-      flex: 1;
-      background: var(--sidebar-light);
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-
-    body.dark-mode .youtube-sidebar {
-      background: var(--sidebar-dark);
-    }
-
-    .youtube-video {
-      margin-bottom: 15px;
-    }
-
-    .youtube-video iframe {
-      width: 100%;
-      height: 200px;
-      border: none;
-      border-radius: 10px;
-    }
-
-    .dark-toggle {
-      margin: 10px auto;
-      display: block;
-      padding: 8px 15px;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-
-    .tabs button {
-      background-color: #64b5f6;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      margin: 5px;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-
-    body.dark-mode .tabs button {
-      background-color: #1a73e8;
-    }
-
-    .news-card {
-      background-color: var(--card-light);
-      color: var(--text-light);
-      border-radius: 10px;
-      margin: 10px;
-      padding: 15px;
-      width: 250px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s ease-in-out;
-    }
-
-    body.dark-mode .news-card {
-      background-color: var(--card-dark);
-      color: var(--text-dark);
-    }
-
-    .filter-controls {
-      margin: 20px;
-    }
-
-    .filter-controls input[type="date"] {
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-  </style>
-  <!-- Google Analytics -->
+  <!-- Google Analytics remains the same -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME4F04LJPD"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -132,47 +16,77 @@
 </head>
 <body>
   <div class="container">
-    <h1>📰 News Mixer</h1>
-    <p>All Your Favorite Newspapers in One Place</p>
+    
+    <div class="header-controls">
+        <div class="title-area">
+            <h1>📰 News Mixer</h1>
+            <p>All Your Favorite Newspapers in One Place</p>
+        </div>
+        <div class="dark-toggle-switch">
+            <span class="icon">☀️</span>
+            <label class="switch">
+              <input type="checkbox" onchange="toggleDarkMode(this.checked)">
+              <span class="slider"></span>
+            </label>
+            <span class="icon">🌙</span>
+        </div>
+    </div>
 
-    <button class="dark-toggle" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</button>
-
+    <!-- NEW: "Favorites" tab and "Add Favorite" button -->
     <div class="tabs">
-        <button onclick="showNews('telugu')">Telugu</button>
-        <button onclick="showNews('english')">English</button>
-        <button onclick="showNews('hindi')">Hindi</button>
-        <button onclick="showNews('tamil')">Tamil</button>
-        <button onclick="showNews('urdu')">Urdu</button>
+        <button onclick="showNews('telugu', this)">Telugu</button>
+        <button onclick="showNews('english', this)">English</button>
+        <button onclick="showNews('hindi', this)">Hindi</button>
+        <button onclick="showNews('tamil', this)">Tamil</button>
+        <button onclick="showNews('urdu', this)">Urdu</button>
+        <button onclick="showFavorites(this)">⭐ My Favorites</button>
+        <button class="add-favorite-btn" onclick="openAddModal()">+ Add Favorite</button>
     </div>
   
-
-    <div class="filter-controls">
-      <label for="newsDate">📅 Filter by Date:</label>
-      <input type="date" id="newsDate" onchange="applyDateFilter()" />
+    <div class="view-and-filter-controls">
+        <div class="view-controls">
+            <span>View:</span>
+            <button id="grid-btn" class="active" onclick="switchLayout('grid-view')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a1.5 1.5 0 0 1-1.5-1.5v-3z"/></svg>
+            </button>
+            <button id="list-btn" onclick="switchLayout('list-view')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/></svg>
+            </button>
+        </div>
+        <!-- UPDATED: The onchange now calls the showNews function -->
+        <div class="filter-controls">
+            <label for="newsDate">📅 E-paper Date:</label>
+            <input type="date" id="newsDate" onchange="dateFilterChanged()" />
+        </div>
     </div>
 
     <div class="main-content">
       <div class="news-section">
-        <div id="newsContainer" class="news-container"></div>
+        <div id="newsContainer" class="news-container grid-view"></div>
       </div>
-
       <aside class="youtube-sidebar">
         <h2>Related YouTube Videos</h2>
-        <div id="youtubeVideos" class="youtube-video"></div>
+        <div id="youtubeVideos" class="youtube-video-container"></div>
       </aside>
     </div>
   </div>
 
-  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-      document.querySelector('.container').classList.toggle('dark-mode');
-      gtag('event', 'toggle_dark_mode', {
-        event_category: 'UI',
-        event_label: document.body.classList.contains('dark-mode') ? 'Dark' : 'Light'
-      });
-    }
-  </script>
+  <!-- NEW: Modal for adding a new favorite newspaper -->
+  <div id="addFavoriteModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeAddModal()">×</span>
+      <h2>Add a New Favorite</h2>
+      <form onsubmit="addFavorite(event)">
+        <label for="favName">Newspaper Name:</label>
+        <input type="text" id="favName" placeholder="e.g., The New York Times" required>
+        <label for="favUrl">Website URL:</label>
+        <input type="url" id="favUrl" placeholder="https://www.nytimes.com" required>
+        <button type="submit">Save Favorite</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- All JavaScript functions are now in script.js -->
   <script src="script.js"></script>
 </body>
 </html>
