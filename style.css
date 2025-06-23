@@ -1,139 +1,501 @@
-/* Reset & Base */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* ===========================
+   🌐 CSS Variables (Theme Colors)
+   =========================== */
+:root {
+  /* Backgrounds */
+  --bg-light: #f4f7f9;
+  --bg-dark: #121212;
+
+  /* Text */
+  --text-light: #1c1c1c;
+  --text-dark: #e0e0e0;
+
+  /* Card & Sidebar Backgrounds */
+  --card-light: #ffffff;
+  --card-dark: #1e1e1e;
+  --sidebar-light: #ffffff;
+  --sidebar-dark: #1e1e1e;
+
+  /* Accent & Action Colors */
+  --accent-color: #007bff;
+  --accent-color-hover: #0056b3;
+  --danger-color: #dc3545;
+
+  /* Borders */
+  --border-light: #e0e0e0;
+  --border-dark: #333333;
 }
 
+
+/* ===========================
+   🧍‍♂️ Global Body Styling
+   =========================== */
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #e3f2fd, #ffffff);
-  color: #333;
-  line-height: 1.6;
-  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Header */
-header {
+body.dark-mode {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
   padding: 20px;
-  background-color: #2196f3;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: 600;
 }
 
-/* Button Container */
-.btn-container {
-  margin: 30px 0;
+
+/* ===========================
+   🧭 Header & Theme Toggle
+   =========================== */
+.header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-/* Buttons */
-button {
-  padding: 12px 24px;
-  margin: 6px;
-  border-radius: 30px;
-  border: none;
-  background: #1976d2;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
+.title-area h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.title-area p {
+  margin: 0;
+  color: #888;
+}
+body.dark-mode .title-area p {
+  color: #777;
+}
+
+/* Dark Mode Switch */
+.dark-toggle-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dark-toggle-switch .icon {
+  font-size: 1.2rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+.switch input {
+  display: none;
+}
+.slider {
+  position: absolute;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+  inset: 0;
+}
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: var(--accent-color);
+}
+input:checked + .slider:before {
+  transform: translateX(24px);
 }
 
-button:hover {
-  background: #0d47a1;
-  transform: translateY(-2px);
-}
 
-/* News Container */
-.news-container {
+/* ===========================
+   🗂 Tabs & Filters
+   =========================== */
+.tabs {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  padding: 30px 15px;
-  gap: 20px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-/* News Card */
-.news-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 20px;
-  width: 280px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
-  transition: all 0.3s ease-in-out;
-  text-align: left;
-}
-
-.news-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 20px rgba(0,0,0,0.15);
-}
-
-.news-card h3 {
-  font-size: 1.1rem;
-  color: #1976d2;
-  margin-bottom: 10px;
-}
-
-.news-card p {
-  font-size: 0.95rem;
-  margin-bottom: 15px;
-  color: #555;
-}
-
-.news-card a {
-  display: inline-block;
-  text-decoration: none;
-  background: #2196f3;
-  color: white;
+.tabs button {
+  background: transparent;
+  color: var(--text-light);
+  border: 1px solid var(--border-light);
   padding: 8px 16px;
   border-radius: 20px;
-  font-weight: bold;
-  transition: background 0.3s;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.news-card a:hover {
-  background: #0d47a1;
+.tabs button:hover,
+.tabs button.active {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
 }
 
-/* Controls (Search/Input) */
-.controls {
-  margin: 20px auto;
+body.dark-mode .tabs button {
+  color: var(--text-dark);
+  border-color: var(--border-dark);
+}
+body.dark-mode .tabs button:hover,
+body.dark-mode .tabs button.active {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+
+/* Add to Favorite Button */
+.add-favorite-btn {
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+  color: white !important;
+  margin-left: auto;
+}
+.add-favorite-btn:hover {
+  background-color: #218838 !important;
+  border-color: #1e7e34 !important;
+}
+
+
+/* View & Filter Container */
+.view-and-filter-controls {
   display: flex;
-  justify-content: center;
-  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px;
+  margin-bottom: 25px;
+  background-color: var(--card-light);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
 }
 
-.controls input {
-  padding: 12px 16px;
-  border-radius: 25px;
-  border: 2px solid #64b5f6;
-  width: 300px;
+body.dark-mode .view-and-filter-controls {
+  background-color: var(--card-dark);
+  border-color: var(--border-dark);
+}
+
+.view-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.view-controls button {
+  background: #f0f0f0;
+  color: #333;
+  border: 1px solid transparent;
+  padding: 8px;
+  border-radius: 8px;
+  line-height: 0;
+  cursor: pointer;
+}
+body.dark-mode .view-controls button {
+  background: #333;
+  color: var(--text-dark);
+}
+.view-controls button.active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.filter-controls input[type="date"] {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-light);
+  color: var(--text-light);
   font-size: 1rem;
-  outline: none;
-  transition: 0.3s;
+}
+body.dark-mode .filter-controls input[type="date"] {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+  border-color: var(--border-dark);
 }
 
-.controls input:focus {
-  border-color: #1976d2;
-  box-shadow: 0 0 6px rgba(25, 118, 210, 0.4);
+
+/* ===========================
+   📰 News Content & Cards
+   =========================== */
+.main-content {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 30px;
 }
 
-.controls button {
-  padding: 12px 18px;
-  border-radius: 25px;
-  background-color: #1976d2;
+.news-container {
+  display: grid;
+  gap: 20px;
+}
+.news-container.grid-view {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+.news-container.list-view {
+  grid-template-columns: 1fr;
+}
+
+/* News Card Styling */
+.news-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+
+.news-card {
+  background-color: var(--card-light);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.news-card-link:hover .news-card {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+body.dark-mode .news-card {
+  background-color: var(--card-dark);
+  border-color: var(--border-dark);
+}
+
+.list-view .news-card {
+  flex-direction: row;
+  align-items: center;
+}
+.list-view .news-card .news-image {
+  width: 150px;
+  height: 100px;
+  flex-shrink: 0;
+}
+
+.news-image img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background-color: #eee;
+  display: block;
+}
+
+.news-content {
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.news-content h3 {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+}
+.news-meta {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-top: auto;
+  padding-top: 10px;
+}
+body.dark-mode .news-meta {
+  color: #868e96;
+}
+
+/* Delete Favorite Button */
+.delete-favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--danger-color);
   color: white;
   border: none;
-  font-weight: 600;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: 0.3s;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.news-card-link:hover .delete-favorite-btn {
+  opacity: 1;
 }
 
-.controls button:hover {
-  background-color: #0d47a1;
+
+/* ===========================
+   🦴 Skeleton Loading (Placeholder)
+   =========================== */
+.skeleton {
+  opacity: 0.7;
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+@keyframes skeleton-loading {
+  0%   { background-color: hsl(200, 20%, 80%); }
+  100% { background-color: hsl(200, 20%, 95%); }
+}
+
+body.dark-mode .skeleton {
+  animation: skeleton-loading-dark 1s linear infinite alternate;
+}
+@keyframes skeleton-loading-dark {
+  0%   { background-color: #2c2c2c; }
+  100% { background-color: #3a3a3a; }
+}
+
+.skeleton-image {
+  height: 180px;
+  width: 100%;
+  border-radius: 0.25rem;
+}
+.skeleton-text {
+  height: 0.7rem;
+  width: 100%;
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+.skeleton-text:last-child {
+  width: 80%;
+}
+.list-view .skeleton .skeleton-image {
+  width: 150px;
+  height: 100px;
+}
+
+
+/* ===========================
+   🎞 Sidebar & YouTube Embeds
+   =========================== */
+.youtube-sidebar {
+  background: var(--sidebar-light);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 15px;
+  position: sticky;
+  top: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+body.dark-mode .youtube-sidebar {
+  background: var(--sidebar-dark);
+  border-color: var(--border-dark);
+}
+
+.youtube-video-container iframe {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 10px;
+}
+
+
+/* ===========================
+   📌 Add to Favorite Modal
+   =========================== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: var(--card-light);
+  margin: 15% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  position: relative;
+}
+body.dark-mode .modal-content {
+  background-color: var(--card-dark);
+  border-color: var(--border-dark);
+}
+
+.close-btn {
+  float: right;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.modal-content label {
+  font-weight: bold;
+}
+.modal-content input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-light);
+  color: var(--text-light);
+}
+body.dark-mode .modal-content input {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+  border-color: var(--border-dark);
+}
+.modal-content button {
+  padding: 12px;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.modal-content button:hover {
+  background-color: var(--accent-color-hover);
+}
+
+
+/* ===========================
+   📱 Responsive Media Queries
+   =========================== */
+@media (max-width: 992px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+  .youtube-sidebar {
+    position: static;
+    max-height: none;
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .news-container.grid-view {
+    grid-template-columns: 1fr;
+  }
 }
